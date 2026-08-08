@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %> · Simple ERP</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Fira+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<% if (currentUser) {
+  const path = typeof currentPath !== 'undefined' ? currentPath : '';
+  const isActive = (p) => path.startsWith(p) ? 'active' : '';
+%>
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="mark"><svg width="16" height="16" viewBox="0 0 256 256" fill="none"><rect x="40" y="40" width="70" height="70" rx="6" fill="white"/><rect x="146" y="40" width="70" height="70" rx="6" fill="white" fill-opacity="0.55"/><rect x="40" y="146" width="70" height="70" rx="6" fill="white" fill-opacity="0.55"/><rect x="146" y="146" width="70" height="70" rx="6" fill="white" fill-opacity="0.85"/></svg></div>
+      Simple ERP
+    </div>
+
+    <div class="sidebar-section">Overview</div>
+    <nav class="sidebar-nav">
+      <a href="/dashboard" class="<%= isActive('/dashboard') %>"><span class="icon"><svg width="17" height="17" viewBox="0 0 256 256" fill="none"><rect x="40" y="40" width="80" height="80" rx="8" stroke="currentColor" stroke-width="16"/><rect x="136" y="40" width="80" height="48" rx="8" stroke="currentColor" stroke-width="16"/><rect x="136" y="120" width="80" height="96" rx="8" stroke="currentColor" stroke-width="16"/><rect x="40" y="152" width="80" height="64" rx="8" stroke="currentColor" stroke-width="16"/></svg></span> Dashboard</a>
+    </nav>
+
+    <div class="sidebar-section">Operations</div>
+    <nav class="sidebar-nav">
+      <a href="/inventory" class="<%= isActive('/inventory') %>"><span class="icon"><svg width="17" height="17" viewBox="0 0 256 256" fill="none"><path d="M223.68 66.15 135.68 18a16 16 0 0 0-15.36 0l-88 48.15A16 16 0 0 0 24 80.14v95.72a16 16 0 0 0 8.32 14L120.32 238a16 16 0 0 0 15.36 0l88-48.15a16 16 0 0 0 8.32-14V80.14a16 16 0 0 0-8.32-14Z" stroke="currentColor" stroke-width="16" stroke-linejoin="round"/><path d="M28 71.91 128 128l100-56.09M128 128v104" stroke="currentColor" stroke-width="16" stroke-linejoin="round"/></svg></span> Inventory</a>
+      <a href="/sales-orders" class="<%= isActive('/sales-orders') %>"><span class="icon"><svg width="17" height="17" viewBox="0 0 256 256" fill="none"><path d="M164 64h56v56M216 68l-79 79-40-40-72 72" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/></svg></span> Sales Orders</a>
+      <a href="/customers" class="<%= isActive('/customers') %>"><span class="icon"><svg width="17" height="17" viewBox="0 0 256 256" fill="none"><circle cx="128" cy="96" r="52" stroke="currentColor" stroke-width="16"/><path d="M27 216c14.6-45 55-76 101-76s86.4 31 101 76" stroke="currentColor" stroke-width="16" stroke-linecap="round"/></svg></span> Customers</a>
+      <a href="/purchase-orders" class="<%= isActive('/purchase-orders') %>"><span class="icon"><svg width="17" height="17" viewBox="0 0 256 256" fill="none"><path d="M92 192H36V80h56M164 64h56v56M216 68l-79 79-45-45" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/></svg></span> Purchase Orders</a>
+      <a href="/suppliers" class="<%= isActive('/suppliers') %>"><span class="icon"><svg width="17" height="17" viewBox="0 0 256 256" fill="none"><path d="M32 96h192M48 96l16-40h128l16 40M64 96v96a8 8 0 0 0 8 8h112a8 8 0 0 0 8-8V96" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/></svg></span> Suppliers</a>
+    </nav>
+
+    <div class="sidebar-section">People</div>
+    <nav class="sidebar-nav">
+      <a href="/employees" class="<%= isActive('/employees') %>"><span class="icon"><svg width="17" height="17" viewBox="0 0 256 256" fill="none"><circle cx="88" cy="108" r="40" stroke="currentColor" stroke-width="16"/><path d="M15 216c11.4-33 41-56 73-56s61.6 23 73 56M172 92a40 40 0 1 1 25 74M197 160c26.7 3.7 48.7 24.6 59 56" stroke="currentColor" stroke-width="16" stroke-linecap="round"/></svg></span> Employees</a>
+    </nav>
+
+    <div class="sidebar-section">Finance</div>
+    <nav class="sidebar-nav">
+      <a href="/accounts" class="<%= isActive('/accounts') %>"><span class="icon"><svg width="17" height="17" viewBox="0 0 256 256" fill="none"><rect x="32" y="56" width="192" height="144" rx="8" stroke="currentColor" stroke-width="16"/><path d="M32 96h192M76 152h32" stroke="currentColor" stroke-width="16" stroke-linecap="round"/></svg></span> Chart of Accounts</a>
+      <a href="/ledger" class="<%= isActive('/ledger') %>"><span class="icon"><svg width="17" height="17" viewBox="0 0 256 256" fill="none"><path d="M48 32h128l32 32v160a8 8 0 0 1-8 8H48a8 8 0 0 1-8-8V40a8 8 0 0 1 8-8Z" stroke="currentColor" stroke-width="16" stroke-linejoin="round"/><path d="M88 100h80M88 140h80M88 180h48" stroke="currentColor" stroke-width="16" stroke-linecap="round"/></svg></span> General Ledger</a>
+      <a href="/reports/income-statement" class="<%= isActive('/reports') %>"><span class="icon"><svg width="17" height="17" viewBox="0 0 256 256" fill="none"><path d="M32 208V96M96 208V48M160 208v-64M224 208v-96" stroke="currentColor" stroke-width="16" stroke-linecap="round"/></svg></span> Reports</a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="user-name"><%= currentUser.name %></div>
+      <div class="user-role"><%= currentUser.role %></div>
+      <form action="/logout?_method=DELETE" method="POST">
+        <button type="submit">Log out</button>
+      </form>
+    </div>
+  </aside>
+
+  <div class="main-col">
+    <div class="topbar">
+      <div class="topbar-title"><%= title %></div>
+    </div>
+    <div class="content">
+      <% if (successMsg && successMsg.length) { %>
+        <div class="alert alert-success"><%= successMsg[0] %></div>
+      <% } %>
+      <% if (errorMsg && errorMsg.length) { %>
+        <div class="alert alert-danger"><%= errorMsg[0] %></div>
+      <% } %>
+<% } else { %>
+<div class="auth-shell">
+  <div>
+  <% if (successMsg && successMsg.length) { %>
+    <div class="alert alert-success auth-box mb-2"><%= successMsg[0] %></div>
+  <% } %>
+  <% if (errorMsg && errorMsg.length) { %>
+    <div class="alert alert-danger auth-box mb-2"><%= errorMsg[0] %></div>
+  <% } %>
+<% } %>

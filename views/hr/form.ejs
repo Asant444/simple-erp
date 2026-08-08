@@ -1,0 +1,47 @@
+<%- include('../partials/header') %>
+<h2 class="mb-3"><%= title %></h2>
+<div class="card shadow-sm"><div class="card-body">
+<form action="<%= employee.id ? '/employees/' + employee.id + '?_method=PUT' : '/employees' %>" method="POST">
+  <div class="row g-3">
+    <div class="col-md-6">
+      <label class="form-label">Full Name</label>
+      <input type="text" name="full_name" class="form-control" value="<%= employee.full_name || '' %>" required>
+    </div>
+    <div class="col-md-6">
+      <label class="form-label">Email</label>
+      <input type="email" name="email" class="form-control" value="<%= employee.email || '' %>">
+    </div>
+    <div class="col-md-6">
+      <label class="form-label">Phone</label>
+      <input type="text" name="phone" class="form-control" value="<%= employee.phone || '' %>">
+    </div>
+    <div class="col-md-6">
+      <label class="form-label">Department</label>
+      <input type="text" name="department" class="form-control" value="<%= employee.department || '' %>">
+    </div>
+    <div class="col-md-6">
+      <label class="form-label">Position</label>
+      <input type="text" name="position" class="form-control" value="<%= employee.position || '' %>">
+    </div>
+    <div class="col-md-6">
+      <label class="form-label">Salary (monthly)</label>
+      <input type="number" step="0.01" name="salary" class="form-control" value="<%= employee.salary || 0 %>">
+    </div>
+    <div class="col-md-6">
+      <label class="form-label">Hire Date</label>
+      <input type="date" name="hire_date" class="form-control" value="<%= employee.hire_date ? employee.hire_date.toISOString().split('T')[0] : '' %>">
+    </div>
+    <div class="col-md-6">
+      <label class="form-label">Status</label>
+      <select name="status" class="form-select">
+        <option value="active" <%= employee.status === 'active' ? 'selected' : '' %>>Active</option>
+        <option value="on_leave" <%= employee.status === 'on_leave' ? 'selected' : '' %>>On Leave</option>
+        <option value="terminated" <%= employee.status === 'terminated' ? 'selected' : '' %>>Terminated</option>
+      </select>
+    </div>
+  </div>
+  <button type="submit" class="btn btn-primary mt-4">Save Employee</button>
+  <a href="/employees" class="btn btn-outline-secondary mt-4">Cancel</a>
+</form>
+</div></div>
+<%- include('../partials/footer') %>

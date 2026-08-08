@@ -1,0 +1,35 @@
+<%- include('../partials/header') %>
+<h2 class="mb-3">Chart of Accounts</h2>
+
+<div class="card shadow-sm mb-4"><div class="card-body">
+  <h5>Add Account</h5>
+  <form action="/accounts" method="POST" class="row g-2">
+    <div class="col-md-6"><input class="form-control" name="name" placeholder="Account Name" required></div>
+    <div class="col-md-4">
+      <select class="form-select" name="type" required>
+        <option value="asset">Asset</option>
+        <option value="liability">Liability</option>
+        <option value="equity">Equity</option>
+        <option value="revenue">Revenue</option>
+        <option value="expense">Expense</option>
+      </select>
+    </div>
+    <div class="col-md-2"><button class="btn btn-primary w-100">Add</button></div>
+  </form>
+</div></div>
+
+<div class="card shadow-sm"><div class="card-body p-0">
+  <table class="table mb-0">
+    <thead><tr><th>Name</th><th>Type</th><th>Balance</th></tr></thead>
+    <tbody>
+    <% accounts.forEach(a => { %>
+      <tr>
+        <td><%= a.name %></td>
+        <td><span class="badge bg-info text-dark"><%= a.type %></span></td>
+        <td class="mono">$<%= Number(a.balance).toFixed(2) %></td>
+      </tr>
+    <% }) %>
+    </tbody>
+  </table>
+</div></div>
+<%- include('../partials/footer') %>

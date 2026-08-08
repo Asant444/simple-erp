@@ -1,0 +1,30 @@
+<%- include('../partials/header') %>
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h2>Purchase Orders</h2>
+  <a href="/purchase-orders/new" class="btn btn-primary">+ New Purchase Order</a>
+</div>
+<div class="card shadow-sm"><div class="card-body p-0">
+  <table class="table mb-0">
+    <thead><tr><th>#</th><th>Supplier</th><th>Date</th><th>Total</th><th>Status</th><th></th></tr></thead>
+    <tbody>
+    <% if (orders.length === 0) { %><tr><td colspan="6" class="text-center text-muted py-3">No purchase orders yet.</td></tr><% } %>
+    <% orders.forEach(o => { %>
+      <tr>
+        <td class="mono">#<%= o.id %></td>
+        <td><%= o.supplier_name %></td>
+        <td><%= o.order_date.toISOString().split('T')[0] %></td>
+        <td class="mono">$<%= Number(o.total).toFixed(2) %></td>
+        <td><span class="badge bg-<%= o.status === 'received' ? 'success' : (o.status === 'cancelled' ? 'secondary' : 'warning') %>"><%= o.status %></span></td>
+        <td>
+          <% if (o.status === 'pending') { %>
+            <form action="/purchase-orders/<%= o.id %>/receive" method="POST" onsubmit="return confirm('Mark as received and add to stock?')">
+              <button class="btn btn-sm btn-outline-success">Mark Received</button>
+            </form>
+          <% } %>
+        </td>
+      </tr>
+    <% }) %>
+    </tbody>
+  </table>
+</div></div>
+<%- include('../partials/footer') %>

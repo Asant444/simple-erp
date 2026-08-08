@@ -1,0 +1,112 @@
+<%- include('partials/header') %>
+
+<div class="hero-banner">
+  <div class="hero-content">
+    <h2>Welcome back, <%= currentUser.name.split(' ')[0] %></h2>
+    <p>Here's how operations look across inventory, sales, and finance right now.</p>
+  </div>
+</div>
+
+<div class="row g-3 mb-4">
+  <div class="col-6 col-md-4 col-lg-2">
+    <div class="card-stat p-3">
+      <div class="stat-icon"><svg width="17" height="17" viewBox="0 0 256 256" fill="none"><path d="M223.68 66.15 135.68 18a16 16 0 0 0-15.36 0l-88 48.15A16 16 0 0 0 24 80.14v95.72a16 16 0 0 0 8.32 14L120.32 238a16 16 0 0 0 15.36 0l88-48.15a16 16 0 0 0 8.32-14V80.14a16 16 0 0 0-8.32-14Z" stroke="currentColor" stroke-width="16" stroke-linejoin="round"/></svg></div>
+      <div class="stat-label">Products</div>
+      <div class="stat-value"><%= stats.productCount ?? 0 %></div>
+    </div>
+  </div>
+  <div class="col-6 col-md-4 col-lg-2">
+    <div class="card-stat warning p-3">
+      <div class="stat-icon"><svg width="17" height="17" viewBox="0 0 256 256" fill="none"><path d="M128 24 8 216h240Z" stroke="currentColor" stroke-width="16" stroke-linejoin="round"/><path d="M128 104v48M128 176v8" stroke="currentColor" stroke-width="16" stroke-linecap="round"/></svg></div>
+      <div class="stat-label">Low Stock</div>
+      <div class="stat-value" style="color:var(--danger)"><%= stats.lowStockCount ?? 0 %></div>
+    </div>
+  </div>
+  <div class="col-6 col-md-4 col-lg-2">
+    <div class="card-stat p-3">
+      <div class="stat-icon"><svg width="17" height="17" viewBox="0 0 256 256" fill="none"><circle cx="88" cy="108" r="40" stroke="currentColor" stroke-width="16"/><path d="M15 216c11.4-33 41-56 73-56s61.6 23 73 56" stroke="currentColor" stroke-width="16" stroke-linecap="round"/></svg></div>
+      <div class="stat-label">Employees</div>
+      <div class="stat-value"><%= stats.employeeCount ?? 0 %></div>
+    </div>
+  </div>
+  <div class="col-6 col-md-4 col-lg-2">
+    <div class="card-stat p-3">
+      <div class="stat-icon"><svg width="17" height="17" viewBox="0 0 256 256" fill="none"><path d="M164 64h56v56M216 68l-79 79-40-40-72 72" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="stat-label">Pending Sales</div>
+      <div class="stat-value"><%= stats.pendingSales ?? 0 %></div>
+    </div>
+  </div>
+  <div class="col-6 col-md-4 col-lg-2">
+    <div class="card-stat p-3">
+      <div class="stat-icon"><svg width="17" height="17" viewBox="0 0 256 256" fill="none"><path d="M92 192H36V80h56M164 64h56v56M216 68l-79 79-45-45" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="stat-label">Pending POs</div>
+      <div class="stat-value"><%= stats.pendingPOs ?? 0 %></div>
+    </div>
+  </div>
+  <div class="col-6 col-md-4 col-lg-2">
+    <div class="card-stat success p-3">
+      <div class="stat-icon"><svg width="17" height="17" viewBox="0 0 256 256" fill="none"><path d="M128 24v208M176 68H108a28 28 0 0 0 0 56h40a28 28 0 0 1 0 56H80" stroke="currentColor" stroke-width="16" stroke-linecap="round"/></svg></div>
+      <div class="stat-label">Revenue</div>
+      <div class="stat-value" style="color:var(--ledger)">$<%= Number(stats.revenue ?? 0).toFixed(2) %></div>
+    </div>
+  </div>
+</div>
+
+<div class="row g-3">
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header">Low Stock Alerts</div>
+      <div class="card-body p-0">
+        <% if (lowStockItems.length === 0) { %>
+          <div class="empty-state">All stock levels healthy</div>
+        <% } else { %>
+        <table class="table mb-0">
+          <thead><tr><th>Product</th><th>SKU</th><th>Level</th></tr></thead>
+          <tbody>
+          <% lowStockItems.forEach(p => {
+               const pct = p.reorder_level > 0 ? Math.min(100, Math.round((p.quantity / p.reorder_level) * 100)) : 0;
+          %>
+            <tr class="table-danger">
+              <td><%= p.name %></td>
+              <td class="mono"><%= p.sku %></td>
+              <td style="min-width:140px">
+                <div class="d-flex justify-content-between mono" style="font-size:0.75rem">
+                  <span style="color:var(--danger)"><%= p.quantity %></span>
+                  <span class="text-muted">/ <%= p.reorder_level %></span>
+                </div>
+                <div class="stock-bar"><div class="stock-bar-fill" style="width:<%= pct %>%"></div></div>
+              </td>
+            </tr>
+          <% }) %>
+          </tbody>
+        </table>
+        <% } %>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header">Recent Sales Orders</div>
+      <div class="card-body p-0">
+        <table class="table mb-0">
+          <thead><tr><th>#</th><th>Customer</th><th>Total</th><th>Status</th></tr></thead>
+          <tbody>
+          <% if (recentSales.length === 0) { %>
+            <tr><td colspan="4" class="empty-state">No sales yet — create your first Sales Order</td></tr>
+          <% } %>
+          <% recentSales.forEach(s => { %>
+            <tr>
+              <td class="mono">#<%= s.id %></td>
+              <td><%= s.customer_name %></td>
+              <td class="mono">$<%= Number(s.total).toFixed(2) %></td>
+              <td><span class="badge bg-secondary"><%= s.status %></span></td>
+            </tr>
+          <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<%- include('partials/footer') %>

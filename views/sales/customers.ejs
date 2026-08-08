@@ -1,0 +1,30 @@
+<%- include('../partials/header') %>
+<h2 class="mb-3">Customers</h2>
+
+<div class="card shadow-sm mb-4"><div class="card-body">
+  <h5>Add Customer</h5>
+  <form action="/customers" method="POST" class="row g-2">
+    <div class="col-md-3"><input class="form-control" name="name" placeholder="Customer Name" required></div>
+    <div class="col-md-3"><input class="form-control" name="email" placeholder="Email"></div>
+    <div class="col-md-3"><input class="form-control" name="phone" placeholder="Phone"></div>
+    <div class="col-md-3"><input class="form-control" name="address" placeholder="Address"></div>
+    <div class="col-12"><button class="btn btn-primary mt-2">Add Customer</button></div>
+  </form>
+</div></div>
+
+<div class="card shadow-sm"><div class="card-body p-0">
+  <table class="table mb-0">
+    <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Address</th><th></th></tr></thead>
+    <tbody>
+    <% if (customers.length === 0) { %><tr><td colspan="5" class="text-center text-muted py-3">No customers yet.</td></tr><% } %>
+    <% customers.forEach(c => { %>
+      <tr>
+        <td><%= c.name %></td><td><%= c.email %></td><td><%= c.phone %></td><td><%= c.address %></td>
+        <td><form action="/customers/<%= c.id %>?_method=DELETE" method="POST" onsubmit="return confirm('Delete customer?')">
+          <button class="btn btn-sm btn-outline-danger">Delete</button></form></td>
+      </tr>
+    <% }) %>
+    </tbody>
+  </table>
+</div></div>
+<%- include('../partials/footer') %>

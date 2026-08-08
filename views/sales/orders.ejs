@@ -1,0 +1,23 @@
+<%- include('../partials/header') %>
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h2>Sales Orders</h2>
+  <a href="/sales-orders/new" class="btn btn-primary">+ New Sales Order</a>
+</div>
+<div class="card shadow-sm"><div class="card-body p-0">
+  <table class="table mb-0">
+    <thead><tr><th>#</th><th>Customer</th><th>Date</th><th>Total</th><th>Status</th></tr></thead>
+    <tbody>
+    <% if (orders.length === 0) { %><tr><td colspan="5" class="text-center text-muted py-3">No sales orders yet.</td></tr><% } %>
+    <% orders.forEach(o => { %>
+      <tr>
+        <td class="mono">#<%= o.id %></td>
+        <td><%= o.customer_name %></td>
+        <td><%= o.order_date.toISOString().split('T')[0] %></td>
+        <td class="mono">$<%= Number(o.total).toFixed(2) %></td>
+        <td><span class="badge bg-<%= o.status === 'completed' ? 'success' : 'warning' %>"><%= o.status %></span></td>
+      </tr>
+    <% }) %>
+    </tbody>
+  </table>
+</div></div>
+<%- include('../partials/footer') %>

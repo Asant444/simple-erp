@@ -1,0 +1,35 @@
+<%- include('../partials/header') %>
+  <div class="auth-box">
+    <div class="card shadow-sm">
+      <div class="card-body p-4">
+        <div class="auth-mark"><svg width="20" height="20" viewBox="0 0 256 256" fill="none"><rect x="40" y="40" width="70" height="70" rx="6" fill="white"/><rect x="146" y="40" width="70" height="70" rx="6" fill="white" fill-opacity="0.55"/><rect x="40" y="146" width="70" height="70" rx="6" fill="white" fill-opacity="0.55"/><rect x="146" y="146" width="70" height="70" rx="6" fill="white" fill-opacity="0.85"/></svg></div>
+        <h3 class="text-center mb-1">Create Account</h3>
+        <p class="text-center text-muted small mb-4">Set up a new console user</p>
+        <form action="/register" method="POST">
+          <div class="mb-3">
+            <label class="form-label">Full Name</label>
+            <input type="text" name="name" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input type="email" name="email" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Password</label>
+            <input type="password" name="password" class="form-control" required minlength="6">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Role</label>
+            <select name="role" class="form-select">
+              <option value="staff">Staff</option>
+              <option value="manager">Manager</option>
+              <option value="admin">Admin</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary w-100">Create Account</button>
+        </form>
+        <p class="text-center mt-3 mb-0 small"><a href="/login">Back to sign in</a></p>
+      </div>
+    </div>
+  </div>
+<%- include('../partials/footer') %>
